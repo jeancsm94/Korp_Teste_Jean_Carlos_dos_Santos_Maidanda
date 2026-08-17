@@ -1,0 +1,56 @@
+<div class="hero">
+  <h1>Sistema de Emissão de Notas Fiscais</h1>
+  <p class="subtitle">Gerencie produtos em estoque e emita notas fiscais com controle de saldo automático.</p>
+</div>
+
+<div class="cards">
+  <a mat-card class="card card-produtos" routerLink="/produtos">
+    <mat-card-header>
+      <mat-card-title class="card-title">
+        <mat-icon class="card-icon">inventory_2</mat-icon>
+        Produtos
+      </mat-card-title>
+      <mat-card-subtitle>
+        Cadastre, edite, exclua e consulte o saldo de produtos em estoque.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <ul class="features">
+        <li><mat-icon>check</mat-icon> Cadastro e manutenção de produtos</li>
+        <li><mat-icon>check</mat-icon> Busca por código ou descrição</li>
+        <li><mat-icon>check</mat-icon> Controle de saldo disponível</li>
+      </ul>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" (click)="$event.preventDefault()" class="card-action">
+        Ir para Produtos
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card-actions>
+  </a>
+
+  <a mat-card class="card card-notas" routerLink="/notas">
+    <mat-card-header>
+      <mat-card-title class="card-title">
+        <mat-icon class="card-icon">receipt_long</mat-icon>
+        Notas Fiscais
+      </mat-card-title>
+      <mat-card-subtitle>
+        Crie novas notas, visualize detalhes e efetue a impressão (baixa no estoque).
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <ul class="features">
+        <li><mat-icon>check</mat-icon> Criação com múltiplos itens</li>
+        <li><mat-icon>check</mat-icon> Validação de produtos no estoque</li>
+        <li><mat-icon>check</mat-icon> Impressão com baixa automática e idempotência</li>
+      </ul>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="accent" (click)="$event.preventDefault()" class="card-action">
+        Ir para Notas Fiscais
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card-actions>
+  </a>
+</div>

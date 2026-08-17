@@ -1,0 +1,84 @@
+<div class="page-header">
+  <h1>Nova Nota Fiscal</h1>
+</div>
+
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <h2 style="margin-top: 0;">Itens da Nota Fiscal</h2>
+
+      @if (carregandoProdutos) {
+        <div style="text-align: center; padding: 24px;">
+          <mat-spinner diameter="32"></mat-spinner>
+        </div>
+      } @else {
+        <table mat-table [dataSource]="items.controls" class="items-table" formArrayName="items">
+          <ng-container matColumnDef="produto">
+            <th mat-header-cell *matHeaderCellDef>Produto</th>
+            <td mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
+              <mat-form-field class="full-width">
+                <mat-label>Selecione o produto</mat-label>
+                <mat-select formControlName="productId">
+                  @for (p of (produtos$ | async); track p.id) {
+                    <mat-option [value]="p.id">
+                      ({{ p.code }}) {{ p.description }} — Saldo: {{ p.balance }}
+                    </mat-option>
+                  }
+                </mat-select>
+                @if (group.get('productId')?.invalid && group.get('productId')?.touched) {
+                  <mat-error>Selecione um produto.</mat-error>
+                }
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="quantidade">
+            <th mat-header-cell *matHeaderCellDef style="width: 200px;">Quantidade</th>
+            <td mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
+              <mat-form-field class="full-width">
+                <mat-label>Quantidade</mat-label>
+                <input matInput type="number" formControlName="quantity" min="1" />
+                @if (group.get('quantity')?.invalid && group.get('quantity')?.touched) {
+                  <mat-error>
+                    @if (group.get('quantity')?.hasError('required')) { Obrigatório. }
+                    @if (group.get('quantity')?.hasError('min')) { Mínimo 1. }
+                  </mat-error>
+                }
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef style="width: 80px;">Remover</th>
+            <td mat-cell *matCellDef="let group; let i = index">
+              <button mat-icon-button color="warn" type="button" (click)="removeItem(i)"
+                      [disabled]="items.length <= 1" title="Remover item">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <button mat-stroked-button type="button" class="add-item-btn" (click)="addItem()">
+          <mat-icon>add</mat-icon> Adicionar Produto
+        </button>
+      }
+
+      <div class="form-actions">
+        <button mat-button type="button" routerLink="/notas">Cancelar</button>
+        <button mat-raised-button color="primary" type="submit"
+                [disabled]="form.invalid || items.length === 0 || salvando || carregandoProdutos">
+          @if (salvando) {
+            <mat-spinner diameter="20" style="display: inline-block; vertical-align: middle;"></mat-spinner>
+          } @else {
+            <mat-icon>save</mat-icon>
+          }
+          {{ salvando ? 'Criando...' : 'Criar Nota Fiscal' }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

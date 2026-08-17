@@ -1,0 +1,56 @@
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.empty-state {
+  max-width: 520px;
+  margin: 24px auto;
+  text-align: center;
+
+  .empty-icon {
+    font-size: 72px;
+    width: 72px;
+    height: 72px;
+    color: #9ca3af;
+    display: block;
+    margin: 16px auto 16px;
+  }
+
+  h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 500;
+    color: #1f2937;
+  }
+
+  p {
+    margin: 0 0 24px;
+    font-size: 15px;
+    color: #6b7280;
+    line-height: 1.5;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &.filter-empty {
+    max-width: 480px;
+
+    .empty-icon {
+      font-size: 56px;
+      width: 56px;
+      height: 56px;
+    }
+
+    p {
+      margin-bottom: 8px;
+    }
+  }
+}

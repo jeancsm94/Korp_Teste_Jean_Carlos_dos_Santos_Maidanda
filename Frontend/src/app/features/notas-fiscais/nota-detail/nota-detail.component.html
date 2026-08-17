@@ -1,0 +1,98 @@
+<div class="page-header">
+  <div>
+    <button mat-stroked-button routerLink="/notas" style="margin-right: 12px;">
+      <mat-icon>arrow_back</mat-icon> Voltar para Notas
+    </button>
+  </div>
+  <h1 style="margin: 0;">Detalhe da Nota Fiscal</h1>
+</div>
+
+@if (loadingNota()) {
+  <div style="text-align: center; padding: 48px;">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+} @else if (nota()) {
+  @let n = nota()!;
+
+  <mat-card>
+    <mat-card-header style="display: flex; justify-content: space-between; align-items: flex-start;">
+      <div>
+        <mat-card-title style="font-size: 20px;">Nota Fiscal #{{ n.number }}</mat-card-title>
+        <mat-card-subtitle style="margin-top: 4px;">
+          ID Interno: {{ n.id }}
+        </mat-card-subtitle>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <app-status-badge [status]="n.status"></app-status-badge>
+        @if (podeImprimir) {
+          <button mat-raised-button color="primary" (click)="imprimir()" [disabled]="printing()">
+            @if (printing()) {
+              <span style="display: inline-flex; align-items: center;">
+                <mat-spinner diameter="20" style="margin-right: 8px;"></mat-spinner>
+                Imprimindo...
+              </span>
+            } @else {
+              <ng-container>
+                <mat-icon>print</mat-icon>
+                Imprimir / Baixar Estoque
+              </ng-container>
+            }
+          </button>
+        }
+      </div>
+    </mat-card-header>
+
+    <mat-divider style="margin: 16px 0;"></mat-divider>
+
+    <mat-card-content>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+        <div>
+          <strong style="color: #666; font-size: 12px; text-transform: uppercase;">Número</strong>
+          <div style="font-size: 18px; font-weight: 500;">{{ n.number }}</div>
+        </div>
+        <div>
+          <strong style="color: #666; font-size: 12px; text-transform: uppercase;">Criada em</strong>
+          <div style="font-size: 16px;">{{ formatarData(n.createdAt) }}</div>
+        </div>
+        <div>
+          <strong style="color: #666; font-size: 12px; text-transform: uppercase;">Fechada em</strong>
+          <div style="font-size: 16px;">{{ formatarData(n.closedAt) }}</div>
+        </div>
+        <div>
+          <strong style="color: #666; font-size: 12px; text-transform: uppercase;">Total de Itens</strong>
+          <div style="font-size: 18px; font-weight: 500;">
+            {{ n.items.length }} linha(s) / {{ totalItens() }} un.
+          </div>
+        </div>
+      </div>
+
+      @if (printError()) {
+        <div class="print-error">
+          <mat-icon style="vertical-align: middle; margin-right: 8px;">error</mat-icon>
+          <strong>Erro na impressão:</strong> {{ printError() }}
+        </div>
+      }
+
+      <h3 style="margin-top: 24px;">Itens</h3>
+      <table mat-table [dataSource]="n.items" class="mat-elevation-z8">
+        <ng-container matColumnDef="productCode">
+          <th mat-header-cell *matHeaderCellDef style="width: 160px;">Código Produto</th>
+          <td mat-cell *matCellDef="let row">{{ row.productCode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="productDescription">
+          <th mat-header-cell *matHeaderCellDef>Descrição</th>
+          <td mat-cell *matCellDef="let row">{{ row.productDescription }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef style="width: 160px; text-align: right;">Quantidade</th>
+          <td mat-cell *matCellDef="let row" style="text-align: right;">{{ row.quantity }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+}
