@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Shared/Korp.Shared/Korp.Shared.csproj" />
+  <Project Path="Services/Estoque.Api/Estoque.Api.csproj" />
+  <Project Path="Services/Faturamento.Api/Faturamento.Api.csproj" />
+</Solution>

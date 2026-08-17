@@ -1,0 +1,20 @@
+## .NET
+bin/
+obj/
+*.user
+
+## Visual Studio
+.vs/
+
+## SQLite databases (geradas em runtime pelas migrations)
+*.db
+*.db-shm
+*.db-wal
+
+## Frontend (quando implementado)
+node_modules/
+dist/
+.angular/
+
+## Editor
+.idea/
