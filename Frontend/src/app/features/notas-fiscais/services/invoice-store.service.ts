@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, take } from 'rxjs';
 import { NotaFiscal } from '../models/nota-fiscal.model';
 import { NotaFiscalService } from './nota-fiscal.service';
 
@@ -15,7 +15,7 @@ export class InvoiceStoreService {
 
   load(force = false): Observable<NotaFiscal[]> {
     if (this.loaded && !force) {
-      return this.notas$;
+      return this.notas$.pipe(take(1));
     }
     return this.notaFiscalService.list().pipe(
       tap(n => {

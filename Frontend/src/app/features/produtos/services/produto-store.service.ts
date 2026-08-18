@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, take } from 'rxjs';
 import { Produto } from '../models/produto.model';
 import { ProdutoService } from './produto.service';
 
@@ -15,7 +15,7 @@ export class ProdutoStoreService {
 
   load(force = false): Observable<Produto[]> {
     if (this.loaded && !force) {
-      return this.produtos$;
+      return this.produtos$.pipe(take(1));
     }
     return this.produtoService.list().pipe(
       tap(p => {
