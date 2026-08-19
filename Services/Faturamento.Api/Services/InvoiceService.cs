@@ -66,9 +66,8 @@ namespace Faturamento.Api.Services
 
         public async Task<IReadOnlyList<InvoiceDto>> ListAsync(string? status, CancellationToken ct)
         {
-            var query = _db.Invoices.AsNoTracking()
-                .Include(i => i.Items)
-                .AsQueryable();
+            IQueryable<Invoice> query = _db.Invoices.AsNoTracking()
+                .Include(i => i.Items);
 
             if (!string.IsNullOrWhiteSpace(status) && Enum.TryParse<InvoiceStatus>(status, true, out var parsedStatus))
             {
